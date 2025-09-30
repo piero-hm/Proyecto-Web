@@ -1,0 +1,112 @@
+---
+interface Props {
+  brand: string;
+  links: { text: string; href: string; active?: boolean }[];
+}
+
+const { brand, links } = Astro.props;
+---
+
+<nav id="main-nav" class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-md shadow-sm transition-all duration-300 ease-in-out">
+  <div class="container mx-auto px-6">
+    <div class="flex items-center justify-between h-16">
+      <!-- Brand Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="text-2xl font-bold text-slate-100 hover:text-white transition-colors">
+          {brand}
+        </a>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex md:items-center md:space-x-8">
+        {links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "text-slate-300 hover:text-white transition-colors duration-300",
+              link.active ? "font-semibold text-white" : "font-medium"
+            ]}
+          >
+            {link.text}
+          </a>
+        ))}
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button id="navbar-toggle" type="button" class="p-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+          <span class="sr-only">Abrir menú principal</span>
+          <div id="hamburger-icon" class="w-6 h-6">
+            <span class="hamburger-line line-1"></span>
+            <span class="hamburger-line line-2"></span>
+            <span class="hamburger-line line-3"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu, show/hide based on menu state. -->
+  <div class="hidden md:hidden" id="mobile-menu">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-slate-700">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            "block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300",
+            link.active 
+              ? "bg-slate-700 text-white"
+              : "text-slate-300 hover:bg-slate-800 hover:text-white"
+          ]}
+        >
+          {link.text}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<style>
+  .hamburger-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+  }
+  #hamburger-icon.open .line-1 {
+    transform: translateY(8px) rotate(45deg);
+  }
+  #hamburger-icon.open .line-2 {
+    opacity: 0;
+  }
+  #hamburger-icon.open .line-3 {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+</style>
+
+<script>
+  function setupNavbar() {
+    const toggleButton = document.getElementById('navbar-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+
+    if (!toggleButton || !mobileMenu || !hamburgerIcon) {
+      return;
+    }
+
+    toggleButton.addEventListener('click', () => {
+      const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+      toggleButton.setAttribute('aria-expanded', String(!isExpanded));
+      mobileMenu.classList.toggle('hidden');
+      hamburgerIcon.classList.toggle('open');
+    });
+  }
+
+  // Run on initial page load
+  setupNavbar();
+
+  // Run on subsequent page loads in Astro
+  document.addEventListener('astro:page-load', setupNavbar);
+</script>

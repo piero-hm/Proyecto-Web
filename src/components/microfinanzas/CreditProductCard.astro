@@ -1,0 +1,72 @@
+---
+interface Props {
+  product: {
+    name: string;
+    amount: string;
+    term: string;
+    rate: string;
+    requirements: string;
+    ctaLink: string;
+  };
+}
+
+const { product } = Astro.props;
+---
+
+<div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200/80 h-full flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5">
+  <div class="p-6 bg-gray-50 border-b border-gray-200">
+    <h3 class="text-xl font-bold text-primary mb-2">{product.name}</h3>
+  </div>
+  <div class="p-6 flex-grow">
+    <ul class="space-y-4 text-gray-700">
+      <li class="flex items-start">
+        <svg class="w-5 h-5 text-secondary mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg>
+        <div>
+          <span class="font-semibold">Monto:</span>
+          <span> {product.amount}</span>
+        </div>
+      </li>
+      <li class="flex items-start">
+        <svg class="w-5 h-5 text-secondary mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        <div>
+          <span class="font-semibold">Plazo:</span>
+          <span> {product.term}</span>
+        </div>
+      </li>
+      <li class="flex items-start">
+        <svg class="w-5 h-5 text-secondary mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5 6.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"></path></svg>
+        <div>
+          <span class="font-semibold">Tasa (TEA):</span>
+          <span> {product.rate}</span>
+        </div>
+      </li>
+      <li class="flex items-start">
+        <svg class="w-5 h-5 text-secondary mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <div>
+          <span class="font-semibold">Requisitos:</span>
+          <span> {product.requirements}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="p-6 mt-auto bg-gray-50">
+    <a href={product.ctaLink} class="block w-full text-center bg-secondary hover:bg-secondary-dark text-white font-bold py-3 px-5 rounded-lg transition-colors duration-300">
+      Simular Ahora
+    </a>
+  </div>
+</div>
+
+<style>
+  .text-primary {
+    color: #0d47a1; /* Un azul oscuro y confiable */
+  }
+  .text-secondary {
+    color: #2e7d32; /* Un verde financiero */
+  }
+  .bg-secondary {
+    background-color: #2e7d32;
+  }
+  .bg-secondary-dark:hover {
+    background-color: #1b5e20;
+  }
+</style>

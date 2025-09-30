@@ -1,0 +1,12 @@
+---
+interface Props {
+  copyrightText: string;
+  bgColor: string; // Tailwind class like 'bg-dark', 'bg-secondary', 'bg-success'
+}
+
+const { copyrightText, bgColor } = Astro.props;
+---
+
+<footer class={`text-white text-center py-3 ${bgColor}`}>
+  <small>{copyrightText}</small>
+</footer>

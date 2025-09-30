@@ -1,0 +1,34 @@
+---
+interface Benefit {
+  icon: string; // SVG path for the icon
+  title: string;
+  description: string;
+}
+
+interface Props {
+  title: string;
+  benefits: Benefit[];
+}
+
+const { title, benefits } = Astro.props;
+---
+
+<div class="text-center">
+  <h2 class="text-4xl font-bold text-primary mb-12">{title}</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {benefits.map(benefit => (
+      <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200/80 text-center transform transition-transform duration-300 hover:-translate-y-2">
+        <div class="mx-auto bg-primary-light text-primary rounded-full w-16 h-16 flex items-center justify-center mb-6">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" set:html={benefit.icon}></svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">{benefit.title}</h3>
+        <p class="text-gray-600">{benefit.description}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .text-primary { color: #0d47a1; }
+  .bg-primary-light { background-color: #e3f2fd; }
+</style>

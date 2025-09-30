@@ -1,0 +1,53 @@
+---
+import type { Plan } from '../../types/plan'; // Assuming you'll create this type
+
+interface Props {
+  plans: Plan[];
+}
+
+const { plans } = Astro.props;
+---
+
+<section id="precios" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">Planes Flexibles</h2>
+      <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Invierte en la solución que tu empresa necesita para crecer.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      {plans.map((plan, index) => (
+        <div class:list={[
+          "rounded-xl shadow-lg flex flex-col relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105",
+          plan.featured ? "bg-blue-600 text-white" : "bg-gray-50 text-gray-900"
+        ]}>
+          {plan.featured && (
+            <div class="absolute top-0 right-0 bg-amber-400 text-gray-900 text-xs font-bold uppercase tracking-wider px-6 py-1 transform rotate-45 translate-x-8 translate-y-4">
+              Recomendado
+            </div>
+          )}
+          <div class="p-8">
+            <h3 class="text-2xl font-bold tracking-wide uppercase">{plan.name}</h3>
+            <p class="mt-6 text-5xl font-extrabold">{plan.price}</p>
+            <p class="mt-2 text-sm opacity-90">{plan.priceDetails}</p>
+            <ul class="mt-8 space-y-4 text-base">
+              {plan.features.map(feature => (
+                <li class="flex items-start">
+                  <svg class:list={["w-6 h-6 mr-3 flex-shrink-0", plan.featured ? "text-amber-400" : "text-blue-500"]} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="mt-auto p-8">
+            <a href="#contacto" class:list={[
+              "block w-full text-center rounded-lg py-3 px-6 font-bold text-lg transition-transform duration-300 transform hover:scale-105 shadow-md hover:shadow-lg",
+              plan.featured ? "bg-white text-blue-600 hover:bg-gray-100" : "bg-blue-600 text-white hover:bg-blue-700"
+            ]}>
+              {plan.cta}
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

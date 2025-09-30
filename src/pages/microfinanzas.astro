@@ -1,0 +1,197 @@
+---
+// Layouts y Componentes Globales
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import TestimonialCard from '../components/TestimonialCard.astro';
+import ImpactSection from '../components/ImpactSection.astro';
+
+// Componentes Modulares de la Página
+import CreditProductCard from '../components/microfinanzas/CreditProductCard.astro';
+import LoanCalculator from '../components/microfinanzas/LoanCalculator.astro';
+import HowItWorksSection from '../components/microfinanzas/HowItWorksSection.astro';
+import BenefitsSection from '../components/microfinanzas/BenefitsSection.astro';
+
+// --- DATOS PARA LA PÁGINA ---
+
+// 1. Navegación
+const navLinks = [
+  { text: 'Inicio', href: '/' },
+  { text: 'Panadería', href: '/panaderia' },
+  { text: 'Microfinanciera', href: '/microfinanzas', active: true },
+  { text: 'Consultora TI', href: '/consultora' },
+];
+
+// 2. Productos de Crédito
+const creditProducts = [
+  {
+    name: 'Crédito Emprendedor',
+    amount: 'Hasta S/ 20,000',
+    term: '6–24 meses',
+    rate: 'Desde 28%',
+    requirements: 'DNI, RUC, flujo de caja simple.',
+    ctaLink: '#simulador',
+  },
+  {
+    name: 'Capital de Trabajo',
+    amount: 'Hasta S/ 50,000',
+    term: '6–36 meses',
+    rate: 'Desde 24%',
+    requirements: 'DNI, RUC, historial de ventas.',
+    ctaLink: '#simulador',
+  },
+  {
+    name: 'Activo Fijo',
+    amount: 'Hasta S/ 80,000',
+    term: '12–48 meses',
+    rate: 'Desde 22%',
+    requirements: 'DNI, RUC, proforma de activo.',
+    ctaLink: '#simulador',
+  },
+];
+
+// 3. Beneficios
+const benefits = [
+    {
+        icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>',
+        title: 'Aprobación Rápida',
+        description: 'Recibe una respuesta a tu solicitud en menos de 24 horas hábiles.'
+    },
+    {
+        icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+        title: 'Tasas Competitivas',
+        description: 'Ofrecemos tasas de interés justas y transparentes para impulsar tu crecimiento.'
+    },
+    {
+        icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+        title: 'Plazos Flexibles',
+        description: 'Elige el plazo que mejor se adapte a la capacidad de pago de tu negocio.'
+    }
+];
+
+// 4. Cómo Funciona
+const howItWorksSteps = [
+  {
+    icon: '', // El número se añade automáticamente
+    title: 'Simula tu Crédito',
+    description: 'Usa nuestra calculadora para encontrar la cuota que te acomode.'
+  },
+  {
+    icon: '',
+    title: 'Envía tus Documentos',
+    description: 'Completa nuestro formulario en línea y adjunta los requisitos.'
+  },
+  {
+    icon: '',
+    title: 'Recibe tu Dinero',
+    description: 'Una vez aprobado, desembolsamos el dinero en tu cuenta.'
+  },
+];
+
+// 5. Testimonios
+const testimonials = [
+  { quote: "Gracias a ConfianzaMicro pude expandir mi negocio. ¡Son los mejores!", author: "María G., Emprendedora", image: "/img/avatar-maria.jpg" },
+  { quote: "El proceso de solicitud fue rápido y sencillo. Recomiendo sus créditos.", author: "Juan P., Comerciante", image: "/img/avatar-juan.jpg" },
+  { quote: "Su apoyo fue fundamental para el crecimiento de mi pequeña empresa.", author: "Ana L., Dueña de Tienda", image: "/img/avatar-ana.jpg" },
+];
+
+// 6. Impacto
+const impactStats = [
+  { value: "+10,000", label: "Emprendedores apoyados" },
+  { value: "S/ 50M+", label: "Créditos desembolsados" },
+  { value: "95%", label: "Tasa de satisfacción" },
+];
+---
+
+<BaseLayout
+  title="ConfianzaMicro | Créditos para Negocios y Emprendedores"
+  description="Impulsa tu negocio con nuestros créditos flexibles. Simula tu cuota y solicita en línea de forma rápida y segura."
+>
+  <Navbar brand="Portafolio Digital" links={navLinks} />
+
+  <main>
+    <!-- Hero Section -->
+    <header class="relative bg-primary text-white py-24 md:py-32 text-center overflow-hidden">
+      <div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url(/img/social-share.jpg)"></div>
+      <div class="relative container mx-auto px-4">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-4">El impulso que tu negocio necesita</h1>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-blue-200">Créditos rápidos, flexibles y con tasas justas para que sigas creciendo.</p>
+        <a href="#simulador" class="bg-white text-primary font-bold py-3 px-8 rounded-full text-lg transition-transform duration-300 ease-in-out transform hover:scale-105">
+          Simula tu Crédito
+        </a>
+      </div>
+    </header>
+
+    <!-- Sección de Beneficios -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <BenefitsSection title="¿Por qué elegirnos?" benefits={benefits} />
+        </div>
+    </section>
+
+    <!-- Sección de Productos de Crédito -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-primary">Nuestros Productos de Crédito</h2>
+          <p class="text-lg text-gray-600 mt-2">Soluciones financieras pensadas para cada tipo de negocio.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {creditProducts.map(product => <CreditProductCard product={product} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección del Simulador -->
+    <section id="simulador" class="py-20 bg-gray-50 scroll-mt-16">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-primary">Simulador de Crédito</h2>
+          <p class="text-lg text-gray-600 mt-2">Calcula tu cuota mensual al instante. ¡Ajusta el monto y plazo como necesites!</p>
+        </div>
+        <div class="max-w-5xl mx-auto">
+            <LoanCalculator />
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección Cómo Funciona -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <HowItWorksSection title="Obtén tu crédito en 3 simples pasos" steps={howItWorksSteps} />
+        </div>
+    </section>
+
+    <!-- Sección de Testimonios -->
+    <section id="testimonios" class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 text-primary">La voz de nuestros clientes</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonials.map(testimonial => <TestimonialCard {...testimonial} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Impacto -->
+    <section id="impacto" class="py-20 bg-primary-dark text-white">
+        <div class="container mx-auto px-4">
+            <ImpactSection title="Nuestro Impacto en la Comunidad" stats={impactStats} />
+        </div>
+    </section>
+
+  </main>
+
+  <Footer copyrightText="© 2025 ConfianzaMicro. Todos los derechos reservados." bgColor="bg-primary-dark" />
+
+</BaseLayout>
+
+<style is:global>
+  .bg-primary { background-color: #0d47a1; }
+  .bg-primary-dark { background-color: #0b3a8a; }
+  .text-primary { color: #0d47a1; }
+
+  /* Sobrescribiendo estilos de ImpactSection para que se vea bien en fondo oscuro */
+  #impacto h2 { color: white; }
+  #impacto p { color: #bbdefb; /* blue-100 */ }
+  #impacto .text-green-600 { color: #69f0ae; /* Un verde brillante y legible */ }
+</style>

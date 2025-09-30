@@ -1,0 +1,140 @@
+---
+// No props needed, this component is self-contained.
+---
+
+<div class="bg-white rounded-2xl shadow-2xl p-8 md:p-12 border border-gray-200/80">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+    <!-- Columna del Formulario -->
+    <div class="space-y-6">
+      <div>
+        <label for="monto" class="flex justify-between items-center text-lg font-semibold text-gray-800 mb-2">
+          <span>Monto del Préstamo</span>
+          <span id="monto-value" class="px-3 py-1 text-base font-bold bg-primary-light text-primary rounded-full">S/ 10,000</span>
+        </label>
+        <input id="monto" type="range" min="1000" max="80000" step="500" value="10000" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-thumb" />
+      </div>
+      <div>
+        <label for="meses" class="flex justify-between items-center text-lg font-semibold text-gray-800 mb-2">
+          <span>Plazo en Meses</span>
+          <span id="meses-value" class="px-3 py-1 text-base font-bold bg-primary-light text-primary rounded-full">24 meses</span>
+        </label>
+        <input id="meses" type="range" min="6" max="48" step="1" value="24" class="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-thumb" />
+      </div>
+      <div>
+        <label for="tasa" class="block text-lg font-semibold text-gray-800 mb-2">Tasa de Interés (TEA)</label>
+        <div class="relative">
+          <input id="tasa" type="number" step="0.1" value="28.5" class="w-full pl-4 pr-12 py-3 text-lg border-gray-300 rounded-lg shadow-sm focus:ring-primary focus:border-primary" />
+          <span class="absolute inset-y-0 right-4 flex items-center text-gray-500">%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna de Resultados -->
+    <div class="text-center bg-primary-light p-8 rounded-xl">
+      <p class="text-lg text-primary font-semibold mb-2">Tu cuota mensual sería</p>
+      <div id="cuota-container" class="transition-transform duration-300">
+        <p id="cuota" class="text-5xl lg:text-6xl font-extrabold text-primary">S/ 0.00</p>
+      </div>
+      <p class="text-sm text-gray-600 mt-3">* Este es un cálculo referencial y no constituye una oferta. La tasa final puede variar.</p>
+      <button class="mt-6 w-full bg-secondary hover:bg-secondary-dark text-white font-bold py-4 px-6 rounded-lg text-lg transition-transform duration-300 transform hover:scale-105">
+        ¡Solicitar Crédito!
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const montoInput = document.getElementById('monto') as HTMLInputElement;
+    const mesesInput = document.getElementById('meses') as HTMLInputElement;
+    const tasaInput = document.getElementById('tasa') as HTMLInputElement;
+    
+    const montoValue = document.getElementById('monto-value');
+    const mesesValue = document.getElementById('meses-value');
+    const cuotaDisplay = document.getElementById('cuota');
+    const cuotaContainer = document.getElementById('cuota-container');
+
+    function formatCurrency(value) {
+      return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(value);
+    }
+
+    function calculatePayment() {
+      const P = parseFloat(montoInput.value);
+      const n = parseInt(mesesInput.value, 10);
+      const tea = parseFloat(tasaInput.value) / 100;
+
+      if (isNaN(P) || isNaN(n) || isNaN(tea) || P <= 0 || n <= 0 || tea <= 0) {
+        cuotaDisplay.textContent = formatCurrency(0);
+        return;
+      }
+
+      // Formula: A = P * i / (1 - (1+i)^-n)
+      const i = Math.pow(1 + tea, 1 / 12) - 1; // Tasa Efectiva Mensual (TEM)
+      const A = (P * i) / (1 - Math.pow(1 + i, -n));
+
+      cuotaDisplay.textContent = formatCurrency(A);
+      
+      // Update UI values
+      montoValue.textContent = formatCurrency(P);
+      mesesValue.textContent = `${n} meses`;
+
+      // Glow animation
+      cuotaContainer.classList.remove('result-updated');
+      void cuotaContainer.offsetWidth; // Trigger reflow
+      cuotaContainer.classList.add('result-updated');
+    }
+
+    // Event Listeners
+    [montoInput, mesesInput, tasaInput].forEach(input => {
+      input.addEventListener('input', calculatePayment);
+    });
+
+    // Initial calculation
+    calculatePayment();
+  });
+</script>
+
+<style>
+  .text-primary { color: #0d47a1; }
+  .bg-primary { background-color: #0d47a1; }
+  .bg-primary-light { background-color: #e3f2fd; }
+  .focus\:ring-primary:focus { --tw-ring-color: #0d47a1; }
+  .focus\:border-primary:focus { border-color: #0d47a1; }
+
+  .text-secondary { color: #2e7d32; }
+  .bg-secondary { background-color: #2e7d32; }
+  .bg-secondary-dark:hover { background-color: #1b5e20; }
+
+  .range-thumb::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #0d47a1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .range-thumb::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: #0d47a1;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .range-thumb:hover::-webkit-slider-thumb {
+    transform: scale(1.2);
+  }
+  .range-thumb:hover::-moz-range-thumb {
+    transform: scale(1.2);
+  }
+
+  @keyframes glow {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+  }
+  .result-updated {
+    animation: glow 0.3s ease-out alternate;
+  }
+</style>

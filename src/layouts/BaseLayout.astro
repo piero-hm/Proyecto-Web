@@ -1,0 +1,63 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  ogUrl?: string;
+  twitterCard?: string;
+  twitterTitle?: string;
+  twitterDescription?: string;
+  twitterImage?: string;
+}
+
+const {
+  title,
+  description = "Un portafolio de ejemplos web modernos con Astro y Tailwind CSS.",
+  keywords = "Astro, Tailwind CSS, desarrollo web, portafolio, ejemplos, panadería, microfinanzas, consultora",
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = "/social-share.jpg", // Default social share image
+  ogUrl = Astro.url.href,
+  twitterCard = "summary_large_image",
+  twitterTitle = title,
+  twitterDescription = description,
+  twitterImage = ogImage,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={ogUrl} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content={twitterCard} />
+    <meta property="twitter:url" content={ogUrl} />
+    <meta property="twitter:title" content={twitterTitle} />
+    <meta property="twitter:description" content={twitterDescription} />
+    <meta property="twitter:image" content={twitterImage} />
+  </head>
+  <body class="bg-neutral-50 text-gray-900">
+    <slot />
+  </body>
+</html>

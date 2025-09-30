@@ -1,11 +1,331 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+// Layout y Componentes Globales
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Componentes de la Página
+import ImpactSection from "../components/ImpactSection.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import ContactForm from "../components/ContactForm.astro";
+
+// --- DATOS PARA LA PÁGINA ---
+
+// 1. Navegación: Marca el enlace de "Inicio" como activo.
+const navLinks = [
+  { text: "Inicio", href: "/", active: true },
+  { text: "Panadería", href: "/panaderia" },
+  { text: "Microfinanciera", href: "/microfinanzas" },
+  { text: "Consultora TI", href: "/consultora" },
+];
+
+// 2. Proyectos: Información para las tarjetas de proyectos.
+const projects = [
+  {
+    title: "Panadería & Pastelería Delicia",
+    description:
+      "Un e-commerce con filtros y detalles de producto para una panadería artesanal.",
+    href: "/panaderia",
+    image: "/img/project-panaderia.jpg",
+    bgColor: "bg-red-500",
+    tag: "E-commerce",
+  },
+  {
+    title: "ConfianzaMicro",
+    description:
+      "Plataforma para servicios financieros con simulador de créditos y testimonios.",
+    href: "/microfinanzas",
+    image: "/img/project-microfinanzas.jpg",
+    bgColor: "bg-green-600",
+    tag: "Fintech",
+  },
+  {
+    title: "TechPartner Consultora TI",
+    description:
+      "Sitio corporativo con planes de precios y formulario de contacto para una consultora de software.",
+    href: "/consultora",
+    image: "/img/project-consultora.jpg",
+    bgColor: "bg-gray-600",
+    tag: "Corporativo",
+  },
+];
+
+// 3. Impacto: Estadísticas para la sección de impacto.
+const impactStats = [
+  { value: "150+", label: "Clientes Satisfechos" },
+  { value: "200+", label: "Proyectos Completados" },
+  { value: "10k+", label: "Líneas de Código" },
+];
+
+// 4. Testimonios: Citas y autores para las tarjetas de testimonios.
+const testimonials = [
+  {
+    quote:
+      "Transformaron nuestra visión en una realidad digital que superó todas las expectativas. ¡Increíble!",
+    author: "Ana García, CEO de Delicia",
+    image: "/img/avatar-ana.jpg",
+  },
+  {
+    quote:
+      "El profesionalismo y la atención al detalle fueron impecables. Nuestro nuevo sitio es rápido y funcional.",
+    author: "Juan Pérez, Gerente de ConfianzaMicro",
+    image: "/img/avatar-juan.jpg",
+  },
+  {
+    quote:
+      "Un socio tecnológico en el que realmente podemos confiar. Su experiencia fue clave para nuestro éxito.",
+    author: "María Rodríguez, Directora de TechPartner",
+    image: "/img/avatar-maria.jpg",
+  },
+];
+
+// 5. Galería: Imágenes para la sección de galería.
+const galleryImages = [
+  { src: "/img/pan1.jpg", alt: "Pan artesanal recién horneado" },
+  { src: "/img/postre1.jpg", alt: "Postre gourmet de chocolate" },
+  { src: "/img/torta1.jpg", alt: "Torta de celebración decorada" },
+];
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="Portafolio de Proyectos Web | Astro & Tailwind CSS"
+  description="Explora un portafolio de proyectos web modernos construidos con Astro y Tailwind CSS, incluyendo ejemplos de e-commerce, fintech y sitios corporativos."
+>
+  <!-- ======== NAVEGACIÓN ======== -->
+  <Navbar brand="PieroDev" links={navLinks} />
+
+  <main>
+    <!-- ======== HERO SECTION (BANNER) ======== -->
+    <header
+      class="relative h-[60vh] md:h-[80vh] flex items-center justify-center text-center text-white overflow-hidden"
+    >
+      <div class="absolute inset-0">
+        <img
+          src="/img/panaderia-banner-large.jpg"
+          alt="Banner de panadería"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-black/50"></div>
+      </div>
+      <div class="relative z-10 animate-fade-in-up px-4">
+        <h1
+          class="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-4"
+        >
+          Transformando Ideas en Experiencias Digitales
+        </h1>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-gray-200">
+          Creamos soluciones web a medida: rápidas, elegantes y funcionales.
+        </p>
+        <a
+          href="#proyectos"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
+        >
+          Ver Proyectos
+        </a>
+      </div>
+    </header>
+
+    <!-- ======== SECCIÓN DE PROYECTOS ======== -->
+    <section id="proyectos" class="py-20 bg-gray-50 scroll-mt-16">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-gray-800">Proyectos Destacados</h2>
+          <p class="text-lg text-gray-600 mt-2">
+            Una muestra de nuestro trabajo en diferentes industrias.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {
+            projects.map((project) => (
+              <div class="fade-in-up bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  class="w-full h-48 object-cover"
+                />
+                <div class="p-6">
+                  <span
+                    class={`inline-block px-3 py-1 text-xs font-semibold text-white ${project.bgColor} rounded-full mb-3`}
+                  >
+                    {project.tag}
+                  </span>
+                  <h3 class="text-xl font-bold mb-2 text-gray-900">
+                    {project.title}
+                  </h3>
+                  <p class="text-gray-700 mb-4 text-sm">
+                    {project.description}
+                  </p>
+                  <a
+                    href={project.href}
+                    class={`inline-block w-full text-center ${project.bgColor} text-white font-semibold py-2 px-4 rounded-md hover:opacity-90 transition duration-150`}
+                  >
+                    Explorar Proyecto
+                  </a>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== SECCIÓN DE IMPACTO ======== -->
+    <section class="fade-in-up py-20 bg-blue-50">
+      <div class="container mx-auto px-4">
+        <ImpactSection title="Nuestro Impacto en Cifras" stats={impactStats} />
+      </div>
+    </section>
+
+    <!-- ======== SECCIÓN DE GALERÍA ======== -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-gray-800">Nuestra Galería</h2>
+          <p class="text-lg text-gray-600 mt-2">
+            Imágenes que hablan por sí mismas.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {
+            galleryImages.map((image, index) => (
+              <div
+                class={`fade-in-up group relative overflow-hidden rounded-lg shadow-md ${index === 0 ? "lg:col-span-2 lg:row-span-2" : ""}`}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                />
+                <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-4">
+                  <p class="text-white font-semibold">{image.alt}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== SECCIÓN DE TESTIMONIOS ======== -->
+    <section class="py-20 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-gray-800">
+            Lo que Dicen Nuestros Clientes
+          </h2>
+          <p class="text-lg text-gray-600 mt-2">
+            La satisfacción de nuestros clientes es nuestra mayor prioridad.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {
+            testimonials.map((testimonial) => (
+              <div class="fade-in-up">
+                <TestimonialCard
+                  quote={testimonial.quote}
+                  author={testimonial.author}
+                  image={testimonial.image}
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== SECCIÓN DE CONTACTO Y MAPA ======== -->
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="fade-in-up">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">
+              ¿Interesado en un Proyecto?
+            </h2>
+            <p class="text-gray-600 mb-6">
+              Nos encantaría escuchar sobre tu idea. Completa el formulario y
+              nos pondremos en contacto contigo a la brevedad.
+            </p>
+            <img
+              src="/img/microfinanzas-map.jpg"
+              alt="Mapa de ubicación"
+              class="rounded-lg shadow-lg w-full h-64 object-cover"
+            />
+          </div>
+          <div class="fade-in-up">
+            <ContactForm
+              title="Hablemos"
+              buttonText="Enviar Mensaje"
+              buttonColorClass="bg-blue-600"
+              selectOptions={[
+                "E-commerce",
+                "Sitio Corporativo",
+                "Fintech",
+                "Otro",
+              ]}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======== FOOTER ======== -->
+  <Footer
+    copyrightText="© 2025 Portafolio Digital. Todos los derechos reservados."
+    bgColor="bg-gray-800"
+  />
+</BaseLayout>
+
+<!-- Estilos para las animaciones de entrada -->
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+  .fade-in-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<!-- Script para activar las animaciones al hacer scroll -->
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // El elemento se considera visible cuando el 10% está en pantalla
+      },
+    );
+
+    const targets = document.querySelectorAll(".fade-in-up");
+    targets.forEach((target) => {
+      observer.observe(target);
+    });
+  });
+</script>
+

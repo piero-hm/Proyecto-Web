@@ -1,0 +1,41 @@
+---
+interface Step {
+  icon: string; // SVG path
+  title: string;
+  description: string;
+}
+
+interface Props {
+  title: string;
+  steps: Step[];
+}
+
+const { title, steps } = Astro.props;
+---
+
+<div class="text-center">
+  <h2 class="text-4xl font-bold text-primary mb-12">{title}</h2>
+  <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Dotted line for desktop -->
+    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0 -translate-y-1/2">
+      <svg width="100%" height="2" class="stroke-current text-gray-300">
+        <line x1="0" y1="1" x2="100%" y2="1" stroke-width="2" stroke-dasharray="8, 8"/>
+      </svg>
+    </div>
+
+    {steps.map((step, index) => (
+      <div class="relative flex flex-col items-center p-6">
+        <div class="bg-primary text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold mb-4 z-10 border-4 border-white shadow-lg">
+          {index + 1}
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">{step.title}</h3>
+        <p class="text-gray-600 text-center">{step.description}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .text-primary { color: #0d47a1; }
+  .bg-primary { background-color: #0d47a1; }
+</style>

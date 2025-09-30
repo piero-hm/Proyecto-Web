@@ -1,0 +1,101 @@
+---
+import type { Product } from '../../types/product';
+import ProductCard from './ProductCard.astro';
+
+interface Props {
+  products: Product[];
+}
+const { products } = Astro.props;
+
+const categories = ['Todos', ...new Set(products.map(p => p.category))];
+---
+
+<div id="product-grid-container">
+  <!-- Controles de Filtro -->
+  <div class="flex justify-center flex-wrap gap-3 mb-12">
+    {categories.map((category, index) => (
+      <button 
+        class:list={[
+          "filter-button capitalize px-5 py-2 rounded-full text-sm font-semibold transition-colors duration-300",
+          index === 0 ? 'active' : ''
+        ]}
+        data-filter={category.toLowerCase()}
+      >
+        {category}
+      </button>
+    ))}
+  </div>
+
+  <!-- Cuadrícula de Productos -->
+  <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+    {products.map(product => (
+      <div class="product-item" data-category={product.category.toLowerCase()}>
+        <ProductCard product={product} />
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const productItems = document.querySelectorAll('.product-item');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active button state
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filter = button.dataset.filter;
+
+        productItems.forEach(item => {
+          const itemCategory = item.dataset.category;
+          const card = item.querySelector('.product-card');
+
+          if (filter === 'todos' || itemCategory === filter) {
+            item.style.display = 'block';
+            card?.classList.remove('fade-out');
+            card?.classList.add('fade-in');
+          } else {
+            card?.classList.add('fade-out');
+            card?.classList.remove('fade-in');
+            // Hide the element after the animation
+            setTimeout(() => {
+              item.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .filter-button {
+    border: 2px solid #D2691E; /* Chocolate */
+    color: #D2691E;
+  }
+  .filter-button.active, .filter-button:hover {
+    background-color: #D2691E; /* Chocolate */
+    color: white;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.95); }
+  }
+
+  .fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  .fade-out {
+    animation: fadeOut 0.3s ease-out forwards;
+  }
+</style>
