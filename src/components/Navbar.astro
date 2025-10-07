@@ -7,61 +7,105 @@ interface Props {
 const { brand, links } = Astro.props;
 ---
 
-<nav id="main-nav" class="sticky top-0 z-50 w-full bg-slate-900/80 backdrop-blur-md shadow-sm transition-all duration-300 ease-in-out">
-  <div class="container mx-auto px-6">
-    <div class="flex items-center justify-between h-16">
-      <!-- Brand Logo -->
-      <div class="flex-shrink-0">
-        <a href="/" class="text-2xl font-bold text-slate-100 hover:text-white transition-colors">
-          {brand}
-        </a>
+<nav
+  id="main-nav"
+  class="fixed left-1/2 top-6 z-40 -translate-x-1/2 w-[92%] max-w-6xl rounded-3xl bg-gradient-to-r from-slate-900/60 via-slate-800/40 to-slate-900/60 backdrop-blur-md border border-slate-700/30 shadow-2xl transition-all duration-500 ease-in-out will-change-transform overflow-hidden"
+  role="navigation"
+>
+  <div class="flex items-center justify-between h-14 px-4">
+    <!-- Logo -->
+    <div class="flex items-center gap-3">
+      <a
+        href="/"
+        class="flex items-center gap-3 no-underline focus:outline-none focus:ring-2 focus:ring-emerald-300 rounded-md"
+      >
+        <img
+          src="/img/logito.jpg"
+          alt="Logo de la marca"
+          class="w-10 h-10 rounded-lg object-cover shadow-sm"
+        />
+        <span class="font-semibold text-base text-slate-50 tracking-tight"
+          >{brand}</span
+        >
+      </a>
+    </div>
+
+    <!-- Desktop menu & Cart -->
+    <div class="hidden md:flex md:items-center md:gap-4">
+      <div id="nav-links" class="flex items-center space-x-6 relative">
+        {
+          links.map((link, i) => (
+            <a
+              href={link.href}
+              class:list={[
+                "group relative text-sm transition-all duration-200 outline-none",
+                link.active
+                  ? "text-white font-semibold"
+                  : "text-slate-300 hover:text-white",
+              ]}
+              data-index={i}
+              aria-current={link.active ? "page" : undefined}
+            >
+              <span class="inline-block py-1 px-2">{link.text}</span>
+              <span class="absolute left-0 -bottom-1 h-[2px] bg-emerald-400 rounded transition-all duration-200 w-0 group-hover:w-full" />
+            </a>
+          ))
+        }
       </div>
 
-      <!-- Desktop Menu -->
-      <div class="hidden md:flex md:items-center md:space-x-8">
-        {links.map((link) => (
-          <a
-            href={link.href}
-            class:list={[
-              "text-slate-300 hover:text-white transition-colors duration-300",
-              link.active ? "font-semibold text-white" : "font-medium"
-            ]}
-          >
-            {link.text}
-          </a>
-        ))}
-      </div>
+      <!-- Cart Button -->
+      <button id="cart-toggle-btn" type="button" class="relative p-2 text-slate-300 hover:text-white">
+        <span class="sr-only">Abrir carrito</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+          <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 2.14 1.724 3.867 3.867 3.867h1.138c-.112.317-.188.656-.188 1.012a2.25 2.25 0 104.5 0c0-.356-.076-.695-.188-1.012h2.25c-.112.317-.188.656-.188 1.012a2.25 2.25 0 104.5 0c0-.356-.076-.695-.188-1.012h.944a2.25 2.25 0 100-4.5h-13.07a.75.75 0 01-.729-.568l-1.06-3.976A.75.75 0 013.45 8.25H19.5a.75.75 0 000-1.5H3.45l.438-1.641a.75.75 0 00-.729-.568H2.25z" />
+        </svg>
+      </button>
+    </div>
 
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden flex items-center">
-        <button id="navbar-toggle" type="button" class="p-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-          <span class="sr-only">Abrir menú principal</span>
-          <div id="hamburger-icon" class="w-6 h-6">
-            <span class="hamburger-line line-1"></span>
-            <span class="hamburger-line line-2"></span>
-            <span class="hamburger-line line-3"></span>
-          </div>
-        </button>
-      </div>
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden flex items-center">
+       <button id="cart-toggle-btn-mobile" type="button" class="relative p-2 mr-2 text-slate-300 hover:text-white">
+        <span class="sr-only">Abrir carrito</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+          <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 2.14 1.724 3.867 3.867 3.867h1.138c-.112.317-.188.656-.188 1.012a2.25 2.25 0 104.5 0c0-.356-.076-.695-.188-1.012h2.25c-.112.317-.188.656-.188 1.012a2.25 2.25 0 104.5 0c0-.356-.076-.695-.188-1.012h.944a2.25 2.25 0 100-4.5h-13.07a.75.75 0 01-.729-.568l-1.06-3.976A.75.75 0 013.45 8.25H19.5a.75.75 0 000-1.5H3.45l.438-1.641a.75.75 0 00-.729-.568H2.25z" />
+        </svg>
+      </button>
+      <button
+        id="navbar-toggle"
+        type="button"
+        class="p-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        <span class="sr-only">Abrir menú principal</span>
+        <div id="hamburger-icon" class="w-6 h-6 relative">
+          <span class="hamburger-line line-1"></span>
+          <span class="hamburger-line line-2"></span>
+          <span class="hamburger-line line-3"></span>
+        </div>
+      </button>
     </div>
   </div>
 
   <!-- Mobile Menu, show/hide based on menu state. -->
   <div class="hidden md:hidden" id="mobile-menu">
-    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-slate-700">
-      {links.map((link) => (
-        <a
-          href={link.href}
-          class:list={[
-            "block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300",
-            link.active 
-              ? "bg-slate-700 text-white"
-              : "text-slate-300 hover:bg-slate-800 hover:text-white"
-          ]}
-        >
-          {link.text}
-        </a>
-      ))}
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-slate-700/50">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300",
+              link.active
+                ? "bg-slate-700 text-white"
+                : "text-slate-300 hover:bg-slate-800 hover:text-white",
+            ]}
+            aria-current={link.active ? "page" : undefined}
+          >
+            {link.text}
+          </a>
+        ))
+      }
     </div>
   </div>
 </nav>
@@ -74,39 +118,84 @@ const { brand, links } = Astro.props;
     background-color: currentColor;
     border-radius: 2px;
     transition: all 0.3s ease-in-out;
+    position: absolute;
+    left: 0;
   }
+  .line-1 { top: 4px; }
+  .line-2 { top: 11px; }
+  .line-3 { top: 18px; }
+
   #hamburger-icon.open .line-1 {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(7px) rotate(45deg);
   }
   #hamburger-icon.open .line-2 {
     opacity: 0;
   }
   #hamburger-icon.open .line-3 {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  #main-nav.navbar-hidden {
+    transform: translateY(-150%) translateX(-50%);
+    opacity: 0;
   }
 </style>
 
 <script>
-  function setupNavbar() {
-    const toggleButton = document.getElementById('navbar-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const hamburgerIcon = document.getElementById('hamburger-icon');
+  function setupInteractiveElements() {
+    // Mobile menu toggle
+    const toggleButton = document.getElementById("navbar-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const hamburgerIcon = document.getElementById("hamburger-icon");
 
-    if (!toggleButton || !mobileMenu || !hamburgerIcon) {
-      return;
+    if (toggleButton && mobileMenu && hamburgerIcon) {
+      toggleButton.addEventListener("click", () => {
+        const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+        toggleButton.setAttribute("aria-expanded", String(!isExpanded));
+        mobileMenu.classList.toggle("hidden");
+        hamburgerIcon.classList.toggle("open");
+      });
     }
 
-    toggleButton.addEventListener('click', () => {
-      const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
-      toggleButton.setAttribute('aria-expanded', String(!isExpanded));
-      mobileMenu.classList.toggle('hidden');
-      hamburgerIcon.classList.toggle('open');
-    });
+    // Navbar hide on scroll
+    const navbar = document.getElementById("main-nav");
+    if (navbar) {
+      window.addEventListener("scroll", function() {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        if (currentScroll > 50) {
+          navbar.classList.add("navbar-hidden");
+        } else {
+          navbar.classList.remove("navbar-hidden");
+        }
+      });
+    }
+
+    // Cart sidebar toggle
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartToggleBtn = document.getElementById('cart-toggle-btn');
+    const cartToggleBtnMobile = document.getElementById('cart-toggle-btn-mobile');
+    const cartCloseBtn = document.getElementById('cart-close-btn');
+
+    const openCart = () => cartSidebar?.classList.remove('hidden');
+    const closeCart = () => cartSidebar?.classList.add('hidden');
+
+    if (cartSidebar && cartToggleBtn && cartCloseBtn && cartToggleBtnMobile) {
+      cartToggleBtn.addEventListener('click', openCart);
+      cartToggleBtnMobile.addEventListener('click', openCart);
+      cartCloseBtn.addEventListener('click', closeCart);
+
+      // Close cart when clicking on the overlay
+      cartSidebar.addEventListener('click', (event) => {
+        if (event.target === cartSidebar) {
+          closeCart();
+        }
+      });
+    }
   }
 
   // Run on initial page load
-  setupNavbar();
+  setupInteractiveElements();
 
   // Run on subsequent page loads in Astro
-  document.addEventListener('astro:page-load', setupNavbar);
+  document.addEventListener("astro:page-load", setupInteractiveElements);
 </script>

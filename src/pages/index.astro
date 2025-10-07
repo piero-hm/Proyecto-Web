@@ -8,6 +8,7 @@ import Footer from "../components/Footer.astro";
 import ImpactSection from "../components/ImpactSection.astro";
 import TestimonialCard from "../components/TestimonialCard.astro";
 import ContactForm from "../components/ContactForm.astro";
+import SectionSeparator from "../components/SectionSeparator.astro";
 
 // --- DATOS PARA LA PÁGINA ---
 
@@ -92,7 +93,7 @@ const galleryImages = [
   description="Explora un portafolio de proyectos web modernos construidos con Astro y Tailwind CSS, incluyendo ejemplos de e-commerce, fintech y sitios corporativos."
 >
   <!-- ======== NAVEGACIÓN ======== -->
-  <Navbar brand="PieroDev" links={navLinks} />
+  <Navbar brand="" links={navLinks} />
 
   <main>
     <!-- ======== HERO SECTION (BANNER) ======== -->
@@ -169,12 +170,20 @@ const galleryImages = [
       </div>
     </section>
 
+    <div class="bg-blue-50">
+      <SectionSeparator />
+    </div>
+
     <!-- ======== SECCIÓN DE IMPACTO ======== -->
     <section class="fade-in-up py-20 bg-blue-50">
       <div class="container mx-auto px-4">
         <ImpactSection title="Nuestro Impacto en Cifras" stats={impactStats} />
       </div>
     </section>
+
+    <div class="bg-white">
+      <SectionSeparator />
+    </div>
 
     <!-- ======== SECCIÓN DE GALERÍA ======== -->
     <section class="py-20 bg-white">
@@ -197,7 +206,9 @@ const galleryImages = [
                   class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                 />
                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-4">
-                  <p class="text-white font-semibold">{image.alt}</p>
+                  <p class="rounded-lg mx-auto bg-black/50 text-lg text-gray-300  font-bold">
+                    {image.alt}
+                  </p>
                 </div>
               </div>
             ))
@@ -205,6 +216,10 @@ const galleryImages = [
         </div>
       </div>
     </section>
+
+    <div class="bg-gray-50">
+      <SectionSeparator />
+    </div>
 
     <!-- ======== SECCIÓN DE TESTIMONIOS ======== -->
     <section class="py-20 bg-gray-50">
@@ -233,23 +248,30 @@ const galleryImages = [
       </div>
     </section>
 
+    <div class="bg-white">
+      <SectionSeparator />
+    </div>
+
     <!-- ======== SECCIÓN DE CONTACTO Y MAPA ======== -->
     <section class="py-20 bg-white">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div class="fade-in-up">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">
+          <div class="fade-in-up bg-slate-50/70">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 p-2">
               ¿Interesado en un Proyecto?
             </h2>
-            <p class="text-gray-600 mb-6">
+            <p class="text-gray-600 mb-6 px-2">
               Nos encantaría escuchar sobre tu idea. Completa el formulario y
               nos pondremos en contacto contigo a la brevedad.
             </p>
-            <img
-              src="/img/microfinanzas-map.jpg"
-              alt="Mapa de ubicación"
-              class="rounded-lg shadow-lg w-full h-64 object-cover"
-            />
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.76317289417!2d-75.20937068964417!3d-12.059809142093846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x910e9635fc16e4af%3A0x29a25708a8a43288!2sAv.%20San%20Carlos%20300-398%2C%20Huancayo%2012001!5e0!3m2!1ses!2spe!4v1759812711448!5m2!1ses!2spe"
+              width="100%"
+              height="300"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
           <div class="fade-in-up">
             <ContactForm
@@ -271,8 +293,19 @@ const galleryImages = [
 
   <!-- ======== FOOTER ======== -->
   <Footer
-    copyrightText="© 2025 Portafolio Digital. Todos los derechos reservados."
     bgColor="bg-gray-800"
+    brandName="Transformando Ideas"
+    brandDescription="Creando soluciones web"
+    navLinks={navLinks}
+    email="Desarrolladomasna@gmail.com"
+    address="Av San Carlos 123"
+    socials={{
+      facebook: "#",
+      instagram: "#",
+      twitter: "#",
+      linkedin: "#",
+    }}
+    copyrightText="© 2025 Delicia. Todo los derecho Reservados."
   />
 </BaseLayout>
 
@@ -328,4 +361,3 @@ const galleryImages = [
     });
   });
 </script>
-

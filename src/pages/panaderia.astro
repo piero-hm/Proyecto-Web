@@ -1,82 +1,341 @@
 ---
-import type { Product } from '../types/product';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import ProductGrid from '../components/panaderia/ProductGrid.astro';
-import ProductModal from '../components/panaderia/ProductModal.astro';
+import type { Product } from "../types/product";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import ProductGrid from "../components/panaderia/ProductGrid.astro";
+import ProductModal from "../components/panaderia/ProductModal.astro";
+import ProductCarousel from "../components/panaderia/ProductCarousel.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
 
 // --- DATOS DE LA PÁGINA ---
 
 // 1. Navegación
 const navLinks = [
-  { text: 'Inicio', href: '/' },
-  { text: 'Panadería', href: '/panaderia', active: true },
-  { text: 'Microfinanciera', href: '/microfinanzas' },
-  { text: 'Consultora TI', href: '/consultora' },
+  { text: "Inicio", href: "/" },
+  { text: "Panadería", href: "/panaderia", active: true },
+  { text: "Microfinanciera", href: "/microfinanzas" },
+  { text: "Consultora TI", href: "/consultora" },
 ];
 
 // 2. Lista de Productos (Más completa y detallada)
 const products: Product[] = [
   {
-    id: 'prod-01',
-    name: 'Baguette Rústica',
-    price: 5.50,
-    category: 'Pan',
-    image: '/img/pan1.jpg', // Re-usando imagen
-    shortDescription: 'Corteza crujiente, miga aireada. Fermentación lenta.',
-    fullDescription: 'Nuestra baguette rústica es el resultado de 48 horas de fermentación lenta, utilizando solo masa madre natural. Esto le confiere una corteza excepcionalmente crujiente y una miga suave y llena de sabor. Perfecta para acompañar cualquier comida o para un sándwich gourmet.',
-    ingredients: ['Harina de trigo', 'Masa madre', 'Agua', 'Sal de maras']
+    id: "prod-01",
+    name: "Baguette Rústica",
+    price: 5.5,
+    category: "Pan",
+    image: "/img/pan1.jpg", // Re-usando imagen
+    shortDescription: "Corteza crujiente, miga aireada. Fermentación lenta.",
+    fullDescription:
+      "Nuestra baguette rústica es el resultado de 48 horas de fermentación lenta, utilizando solo masa madre natural. Esto le confiere una corteza excepcionalmente crujiente y una miga suave y llena de sabor. Perfecta para acompañar cualquier comida o para un sándwich gourmet.",
+    ingredients: ["Harina de trigo", "Masa madre", "Agua", "Sal de maras"],
   },
   {
-    id: 'prod-02',
-    name: 'Torta Selva Negra',
-    price: 55.00,
-    category: 'Torta',
-    image: '/img/torta1.jpg', // Re-usando imagen
-    shortDescription: 'Capas de chocolate, crema y cerezas.',
-    fullDescription: 'Un clásico reinventado. Bizcocho de chocolate húmedo embebido en licor de cereza, capas de crema chantilly fresca y cerezas ácidas. Cubierta con virutas de chocolate belga y más cerezas. Un postre indulgente y equilibrado.',
-    ingredients: ['Chocolate 70%', 'Crema de leche', 'Cerezas', 'Licor de cereza', 'Harina', 'Huevos']
+    id: "prod-02",
+    name: "Torta Selva Negra",
+    price: 55.0,
+    category: "Torta",
+    image: "/img/torta1.jpg", // Re-usando imagen
+    shortDescription: "Capas de chocolate, crema y cerezas.",
+    fullDescription:
+      "Un clásico reinventado. Bizcocho de chocolate húmedo embebido en licor de cereza, capas de crema chantilly fresca y cerezas ácidas. Cubierta con virutas de chocolate belga y más cerezas. Un postre indulgente y equilibrado.",
+    ingredients: [
+      "Chocolate 70%",
+      "Crema de leche",
+      "Cerezas",
+      "Licor de cereza",
+      "Harina",
+      "Huevos",
+    ],
   },
   {
-    id: 'prod-03',
-    name: 'Cheesecake de Maracuyá',
-    price: 15.00,
-    category: 'Postre',
-    image: '/img/postre1.jpg', // Re-usando imagen
-    shortDescription: 'Cremoso, con el toque ácido del maracuyá.',
-    fullDescription: 'Sobre una base de galleta crocante, descansa un relleno cremoso de queso y un coulis de maracuyá 100% natural. El equilibrio perfecto entre dulce y ácido que refrescará tu paladar. Servido en porción individual.',
-    ingredients: ['Queso crema', 'Maracuyá (fruta)', 'Galletas', 'Mantequilla', 'Crema de leche']
+    id: "prod-03",
+    name: "Cheesecake de Maracuyá",
+    price: 15.0,
+    category: "Postre",
+    image: "/img/postre1.jpg", // Re-usando imagen
+    shortDescription: "Cremoso, con el toque ácido del maracuyá.",
+    fullDescription:
+      "Sobre una base de galleta crocante, descansa un relleno cremoso de queso y un coulis de maracuyá 100% natural. El equilibrio perfecto entre dulce y ácido que refrescará tu paladar. Servido en porción individual.",
+    ingredients: [
+      "Queso crema",
+      "Maracuyá (fruta)",
+      "Galletas",
+      "Mantequilla",
+      "Crema de leche",
+    ],
   },
   {
-    id: 'prod-04',
-    name: 'Croissant de Almendras',
-    price: 7.00,
-    category: 'Postre',
-    image: '/img/project-panaderia.jpg', // Placeholder
-    shortDescription: 'Hojaldre relleno de crema de almendras.',
-    fullDescription: 'Nuestro croissant artesanal, hecho con mantequilla pura, se rellena con una generosa cantidad de frangipane (crema de almendras) y se cubre con almendras laminadas antes de hornear. Doblemente delicioso.',
-    ingredients: ['Harina de trigo', 'Mantequilla', 'Almendras', 'Azúcar', 'Huevos']
+    id: "prod-04",
+    name: "Croissant de Almendras",
+    price: 7.0,
+    category: "Postre",
+    image: "/img/pan-centeno-nueces.jpg", // Placeholder
+    shortDescription: "Hojaldre relleno de crema de almendras.",
+    fullDescription:
+      "Nuestro croissant artesanal, hecho con mantequilla pura, se rellena con una generosa cantidad de frangipane (crema de almendras) y se cubre con almendras laminadas antes de hornear. Doblemente delicioso.",
+    ingredients: [
+      "Harina de trigo",
+      "Mantequilla",
+      "Almendras",
+      "Azúcar",
+      "Huevos",
+    ],
   },
   {
-    id: 'prod-05',
-    name: 'Pan de Centeno y Nueces',
-    price: 12.00,
-    category: 'Pan',
-    image: '/img/panaderia-banner-medium.jpg', // Placeholder
-    shortDescription: 'Denso, nutritivo y lleno de sabor.',
-    fullDescription: 'Un pan robusto y saludable, elaborado con una mezcla de harina de centeno y trigo integral. Las nueces tostadas añaden un sabor y una textura excepcionales. Ideal para tostadas con palta o quesos fuertes.',
-    ingredients: ['Harina de centeno', 'Harina integral', 'Nueces', 'Masa madre', 'Sal']
+    id: "prod-05",
+    name: "Pan de Centeno y Nueces",
+    price: 12.0,
+    category: "Pan",
+    image: "/img/panaderia-banner-medium.jpg", // Placeholder
+    shortDescription: "Denso, nutritivo y lleno de sabor.",
+    fullDescription:
+      "Un pan robusto y saludable, elaborado con una mezcla de harina de centeno y trigo integral. Las nueces tostadas añaden un sabor y una textura excepcionales. Ideal para tostadas con palta o quesos fuertes.",
+    ingredients: [
+      "Harina de centeno",
+      "Harina integral",
+      "Nueces",
+      "Masa madre",
+      "Sal",
+    ],
   },
   {
-    id: 'prod-06',
-    name: 'Torta de Zanahoria',
-    price: 48.00,
-    category: 'Torta',
-    image: '/img/panaderia-banner-small.jpg', // Placeholder
-    shortDescription: 'Húmeda, especiada y con frosting de queso crema.',
-    fullDescription: 'Bizcocho increíblemente húmedo gracias a la zanahoria fresca rallada, con un toque de canela y nuez moscada. El frosting de queso crema, suave y no demasiado dulce, es el complemento perfecto.',
-    ingredients: ['Zanahoria', 'Nueces', 'Canela', 'Queso crema', 'Harina', 'Azúcar moreno']
+    id: "prod-06",
+    name: "Torta de Zanahoria",
+    price: 48.0,
+    category: "Torta",
+    image: "/img/panaderia-banner-small.jpg", // Placeholder
+    shortDescription: "Húmeda, especiada y con frosting de queso crema.",
+    fullDescription:
+      "Bizcocho increíblemente húmedo gracias a la zanahoria fresca rallada, con un toque de canela y nuez moscada. El frosting de queso crema, suave y no demasiado dulce, es el complemento perfecto.",
+    ingredients: [
+      "Zanahoria",
+      "Nueces",
+      "Canela",
+      "Queso crema",
+      "Harina",
+      "Azúcar moreno",
+    ],
+  },
+  {
+    id: "prod-07",
+    name: "Pan de Masa Madre Integral",
+    price: 15.0,
+    category: "Pan",
+    image: "/img/placeholder-pan-integral.jpg",
+    shortDescription: "Saludable y nutritivo, con un sabor profundo.",
+    fullDescription:
+      "Elaborado con harina 100% integral y masa madre de larga fermentación. Su corteza es crujiente y su miga densa y aromática, ideal para una alimentación consciente.",
+    ingredients: ["Harina integral", "Masa madre", "Agua", "Sal marina"],
+  },
+  {
+    id: "prod-08",
+    name: "Tarta de Manzana Clásica",
+    price: 22.0,
+    category: "Postre",
+    image: "/img/placeholder-tarta-manzana.jpg",
+    shortDescription: "El postre casero favorito, con un toque de canela.",
+    fullDescription:
+      "Una tarta tradicional con manzanas frescas, canela y una base de masa quebrada casera. Perfecta para compartir en cualquier ocasión, servida tibia con helado de vainilla.",
+    ingredients: ["Manzanas", "Harina", "Mantequilla", "Azúcar", "Canela"],
+  },
+  {
+    id: "prod-09",
+    name: "Rollos de Canela",
+    price: 8.0,
+    category: "Postre",
+    image: "/img/placeholder-rollos-canela.jpg",
+    shortDescription: "Suaves y esponjosos, con glaseado de queso crema.",
+    fullDescription:
+      "Deliciosos rollos de masa brioche, rellenos de canela y azúcar moreno, horneados a la perfección y cubiertos con un cremoso glaseado de queso. Ideales para el desayuno o la merienda.",
+    ingredients: [
+      "Harina",
+      "Leche",
+      "Mantequilla",
+      "Azúcar",
+      "Canela",
+      "Queso crema",
+    ],
+  },
+  {
+    id: "prod-10",
+    name: "Pan Ciabatta con Aceitunas",
+    price: 9.0,
+    category: "Pan",
+    image: "/img/placeholder-ciabatta-aceitunas.jpg",
+    shortDescription: "Con aceitunas Kalamata, ideal para acompañar.",
+    fullDescription:
+      "Nuestro ciabatta artesanal, con una miga abierta y alveolada, enriquecido con aceitunas Kalamata. Perfecto para mojar en aceite de oliva o para sándwiches mediterráneos.",
+    ingredients: [
+      "Harina de trigo",
+      "Agua",
+      "Masa madre",
+      "Aceitunas Kalamata",
+      "Sal",
+    ],
+  },
+  {
+    id: "prod-11",
+    name: "Torta de Chocolate Fudge",
+    price: 60.0,
+    category: "Torta",
+    image: "/img/placeholder-torta-chocolate.jpg",
+    shortDescription: "Intensamente chocolatosa y húmeda.",
+    fullDescription:
+      "Una torta para los amantes del chocolate. Bizcocho denso y húmedo con un glaseado de chocolate fudge rico y sedoso. Una experiencia indulgente en cada bocado.",
+    ingredients: [
+      "Chocolate negro",
+      "Cacao en polvo",
+      "Harina",
+      "Azúcar",
+      "Huevos",
+      "Mantequilla",
+    ],
+  },
+  {
+    id: "prod-12",
+    name: "Galletas de Avena y Pasas",
+    price: 4.0,
+    category: "Postre",
+    image: "/img/placeholder-galletas-avena.jpg",
+    shortDescription: "Clásicas, suaves y llenas de sabor.",
+    fullDescription:
+      "Galletas caseras de avena con pasas jugosas, horneadas hasta obtener una textura suave por dentro y ligeramente crujiente por fuera. Un dulce reconfortante para cualquier momento del día.",
+    ingredients: [
+      "Avena",
+      "Harina",
+      "Mantequilla",
+      "Azúcar moreno",
+      "Pasas",
+      "Canela",
+    ],
+  },
+  {
+    id: "prod-13",
+    name: "Muffin de Arándanos",
+    price: 6.0,
+    category: "Postre",
+    image: "/img/placeholder-muffin-arandanos.jpg",
+    shortDescription: "Esponjoso y lleno de arándanos frescos.",
+    fullDescription:
+      "Nuestros muffins de arándanos son horneados diariamente, con una textura suave y esponjosa, y generosamente cargados de arándanos frescos que estallan en sabor con cada bocado.",
+    ingredients: [
+      "Harina",
+      "Arándanos",
+      "Azúcar",
+      "Leche",
+      "Huevo",
+      "Mantequilla",
+    ],
+  },
+  {
+    id: "prod-14",
+    name: "Pan de Queso",
+    price: 7.5,
+    category: "Pan",
+    image: "/img/placeholder-pan-queso.jpg",
+    shortDescription: "Suave y con un delicioso corazón de queso.",
+    fullDescription:
+      "Un pan tierno y aromático, con un irresistible relleno de queso derretido. Perfecto para el desayuno, la merienda o como acompañamiento de tus comidas.",
+    ingredients: [
+      "Harina de trigo",
+      "Queso mozzarella",
+      "Leche",
+      "Huevo",
+      "Mantequilla",
+      "Sal",
+    ],
+  },
+  {
+    id: "prod-15",
+    name: "Torta Red Velvet",
+    price: 58.0,
+    category: "Torta",
+    image: "/img/placeholder-red-velvet.jpg",
+    shortDescription: "Elegante y sofisticada, con frosting de queso crema.",
+    fullDescription:
+      "Una torta de terciopelo rojo, suave y húmeda, con un ligero toque de cacao y un contraste perfecto con nuestro cremoso frosting de queso. Ideal para celebraciones especiales.",
+    ingredients: [
+      "Harina",
+      "Cacao",
+      "Colorante rojo",
+      "Queso crema",
+      "Mantequilla",
+      "Azúcar",
+    ],
+  },
+  {
+    id: "prod-16",
+    name: "Brownie de Chocolate",
+    price: 9.5,
+    category: "Postre",
+    image: "/img/placeholder-brownie.jpg",
+    shortDescription: "Denso, fudgy y con trozos de chocolate.",
+    fullDescription:
+      "Nuestro brownie es la perfección en cada cuadrado: una corteza ligeramente crujiente, un interior denso y fudgy, y generosos trozos de chocolate que se derriten en tu boca. Una experiencia indulgente en cada bocado.",
+    ingredients: [
+      "Chocolate negro",
+      "Mantequilla",
+      "Azúcar",
+      "Huevos",
+      "Harina",
+      "Nueces (opcional)",
+    ],
+  },
+  {
+    id: "prod-17",
+    name: "Focaccia con Romero y Sal Marina",
+    price: 11.0,
+    category: "Pan",
+    image: "/img/placeholder-focaccia.jpg",
+    shortDescription:
+      "Aromática y esponjosa, con aceite de oliva extra virgen.",
+    fullDescription:
+      "Una focaccia tradicional italiana, con una textura aireada y un exterior dorado. Infusionada con aceite de oliva extra virgen, romero fresco y sal marina gruesa. Perfecta para acompañar o como aperitivo.",
+    ingredients: [
+      "Harina de trigo",
+      "Agua",
+      "Levadura",
+      "Aceite de oliva",
+      "Romero",
+      "Sal marina",
+    ],
+  },
+  {
+    id: "prod-18",
+    name: "Eclair de Crema Pastelera",
+    price: 7.0,
+    category: "Postre",
+    image: "/img/placeholder-eclair.jpg",
+    shortDescription:
+      "Clásico francés, relleno de crema y cubierto de chocolate.",
+    fullDescription:
+      "Delicado pastel de pasta choux, relleno de una suave y sedosa crema pastelera de vainilla, y cubierto con un brillante glaseado de chocolate. Un bocado de elegancia francesa.",
+    ingredients: [
+      "Harina",
+      "Mantequilla",
+      "Huevos",
+      "Leche",
+      "Azúcar",
+      "Vainilla",
+      "Chocolate",
+    ],
+  },
+];
+
+const carouselImages = [
+  { src: "/img/panaderia-banner-large.jpg", alt: "Panadería Delicias" },
+  { src: "/img/pan1.jpg", alt: "Baguette Rústica" },
+  { src: "/img/torta1.jpg", alt: "Torta Selva Negra" },
+  { src: "/img/postre1.jpg", alt: "Cheesecake de Maracuyá" },
+  {
+    src: "/img/placeholder-pan-integral.jpg",
+    alt: "Pan de Masa Madre Integral",
+  },
+  {
+    src: "/img/placeholder-tarta-manzana.jpg",
+    alt: "Tarta de Manzana Clásica",
   },
 ];
 ---
@@ -85,16 +344,91 @@ const products: Product[] = [
   title="Delicia | Panadería & Pastelería Artesanal"
   description="Explora nuestro catálogo de panes, tortas y postres hechos con ingredientes de la más alta calidad."
 >
-  <Navbar brand="Portafolio Digital" links={navLinks} />
+  <Navbar brand="" links={navLinks} />
 
   <main>
     <!-- Encabezado de la Página -->
     <header class="bg-brand-beige py-20 text-center">
       <div class="container mx-auto px-4">
-        <h1 class="text-5xl font-extrabold text-brand-sienna tracking-tight">Nuestra Selección Artesanal</h1>
-        <p class="mt-4 text-lg text-gray-700 max-w-2xl mx-auto">Cada producto es una obra de arte, horneada diariamente con pasión y los mejores ingredientes.</p>
+        <h1
+          class="mt-40 text-5xl font-extrabold text-brand-sienna tracking-tight"
+        >
+          Nuestra Selección Artesanal
+        </h1>
+        <p class="mt-4 text-lg text-gray-700 max-w-2xl mx-auto">
+          Cada producto es una obra de arte, horneada diariamente con pasión y
+          los mejores ingredientes.
+        </p>
       </div>
     </header>
+
+    <ProductCarousel images={carouselImages} />
+
+    <!-- Sección Nuestra Historia -->
+    <section class="py-20 bg-white">
+      <div
+        class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12"
+      >
+        <div class="md:w-1/2">
+          <h2 class="text-4xl font-bold text-brand-sienna mb-6">
+            Nuestra Historia: Pasión por el Buen Pan
+          </h2>
+          <p class="text-gray-700 text-lg leading-relaxed mb-4">
+            En el corazón de nuestro barrio, "Delicia" nació no en un local,
+            sino en la cocina de nuestra abuela Elena. Para ella, cada pan era
+            una carta de amor a la vida, una delicia amasada con paciencia y
+            horneada con el calor de un hogar lleno de risas. Sus recetas, un
+            secreto susurrado entre generaciones, son el alma de nuestra
+            panadería.
+          </p>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            Hoy, ese mismo amor y esa misma magia viven en cada rincón de
+            nuestro local. El aroma a pan recién hecho que inunda la calle cada
+            mañana es el eco de la pasión de Elena. Más que una panadería, somos
+            guardianes de su legado, un lugar donde cada bocado te transporta a
+            un momento de pura felicidad. En "Delicia", no solo vendemos pan,
+            compartimos nuestra historia.
+          </p>
+        </div>
+        <div class="md:w-1/2">
+          <img
+            src="/img/panaderia-map.jpg"
+            alt="Nuestra Panadería"
+            class="rounded-lg shadow-xl w-full h-auto object-cover"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección de Ofertas Especiales -->
+    <section class="py-20 bg-brand-beige">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-brand-sienna text-center mb-12">
+          Nuestras Ofertas Especiales
+        </h2>
+        <ProductGrid
+          products={products.filter((p) =>
+            ["prod-01", "prod-03", "prod-07"].includes(p.id),
+          )}
+        />
+      </div>
+    </section>
+    <!-- Sección de Llamada a la Acción para Pedidos Personalizados -->
+    <section class="py-20 bg-brand-sienna text-white text-center">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold mb-6">¿Necesitas Algo Especial?</h2>
+        <p class="text-lg max-w-2xl mx-auto mb-8">
+          Desde tortas personalizadas para tus eventos hasta pedidos al por
+          mayor, estamos listos para crear algo único para ti. ¡Contáctanos y
+          cuéntanos tu idea!
+        </p>
+        <a
+          href="#"
+          class="bg-white text-brand-sienna font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-200 transition duration-300"
+          >Haz tu Pedido Personalizado</a
+        >
+      </div>
+    </section>
 
     <!-- Sección Principal de Productos -->
     <section class="py-20 bg-gray-50">
@@ -106,34 +440,57 @@ const products: Product[] = [
     <!-- Sección de Ubicación -->
     <section id="ubicacion" class="py-20 bg-white">
       <div class="container mx-auto px-4 text-center">
-        <h2 class="text-4xl font-bold text-brand-sienna mb-8">Visita Nuestro Local</h2>
-        <div class="relative rounded-xl overflow-hidden shadow-2xl max-w-4xl mx-auto group">
-          <img src="/img/panaderia-map.jpg" alt="Ubicación de Panadería Delicia" class="w-full h-96 object-cover">
-          <a href="https://www.google.com/maps/search/?api=1&query=Panaderia+Delicia" target="_blank" rel="noopener noreferrer" class="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-2xl font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            Abrir en Google Maps
-          </a>
+        <h2 class="text-4xl font-bold text-brand-sienna mb-8">
+          Visita Nuestro Local
+        </h2>
+        <div
+          class="relative rounded-xl overflow-hidden shadow-2xl max-w-4xl mx-auto group"
+        >
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.3624700146247!2d-76.9726457!3d-12.155707600000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105b85b80ce0933%3A0x8c1ce1c203f760f5!2sAv%20San%20Juan%201061%2C%20San%20Juan%20de%20Miraflores%2015801!5e0!3m2!1ses!2spe!4v1759808952121!5m2!1ses!2spe"
+            width="100%"
+            height="450"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        <p class="text-center text-gray-700 mt-6 text-lg">Av. El Sol 123, Miraflores, Lima - Perú</p>
+        <p class="text-center text-gray-700 mt-6 text-lg">
+          Av San Juan 1061, San Juan de Miraflores 15801
+        </p>
       </div>
     </section>
   </main>
 
-  <Footer copyrightText="© 2025 Delicia Panadería & Pastelería" bgColor="bg-brand-sienna" />
+  <Footer
+    bgColor="bg-brand-sienna"
+    brandName="Panderia-Delicia"
+    brandDescription="El aroma a pan recién hecho que inunda la calle cada mañana es el eco de la pasión de Elena. "
+    navLinks={navLinks}
+    address="Av San Juan N° 1061, San Juan de Miraflores 15801"
+    phone="(01) 564-6456"
+    email="pedidos@grisela.com"
+    socials={{
+      facebook: "#",
+      instagram: "#",
+      twitter: "#",
+    }}
+    copyrightText="© 2025 panadería-delicias. Todos los derechos reservados."
+  />
 
   <!-- El Modal se renderiza aquí, fuera del main para apilamiento correcto -->
   <ProductModal products={products} />
-
 </BaseLayout>
 
 <style is:global>
   /* Paleta de Colores Elegante para la Panadería */
   .bg-brand-beige {
-    background-color: #F5F5DC; /* Beige */
+    background-color: #f5f5dc; /* Beige */
   }
   .bg-brand-sienna {
-    background-color: #A0522D; /* Sienna */
+    background-color: #a0522d; /* Sienna */
   }
   .text-brand-sienna {
-    color: #A0522D; /* Sienna */
+    color: #a0522d; /* Sienna */
   }
 </style>

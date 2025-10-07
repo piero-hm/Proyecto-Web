@@ -1,0 +1,122 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  images: { src: string; alt: string }[];
+}
+
+const { images } = Astro.props;
+---
+
+<section class="py-16 bg-gray-100">
+  <div class="container mx-auto px-4">
+    <div class="relative w-full overflow-hidden rounded-lg shadow-xl">
+      <div
+        id="carousel-track"
+        class="flex transition-transform duration-700 ease-in-out"
+      >
+        {
+          images.map((image, index) => (
+            <div class="w-full flex-shrink-0" data-carousel-item={index}>
+              <Image
+                src={image.src}
+                alt={image.alt}
+                width={1200}
+                height={400}
+                class="w-full h-auto object-cover rounded-lg max-h-96"
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Carousel controls -->
+      <button
+        type="button"
+        class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        data-carousel-prev
+      >
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 1 1 5l4 4"></path>
+          </svg>
+          <span class="sr-only">Previous</span>
+        </span>
+      </button>
+      <button
+        type="button"
+        class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        data-carousel-next
+      >
+        <span
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none"
+        >
+          <svg
+            class="w-4 h-4 text-white rtl:rotate-180"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 9 4-4-4-4"></path>
+          </svg>
+          <span class="sr-only">Next</span>
+        </span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById("carousel-track");
+    const items = track ? Array.from(track.children) : [];
+    let currentIndex = 0;
+
+    if (items.length === 0) return;
+
+    const updateCarousel = () => {
+      if (track) {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+    };
+
+    document
+      .querySelector("[data-carousel-prev]")
+      ?.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + items.length) % items.length;
+        updateCarousel();
+      });
+
+    document
+      .querySelector("[data-carousel-next]")
+      ?.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % items.length;
+        updateCarousel();
+      });
+
+    // Optional: Auto-advance carousel
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % items.length;
+      updateCarousel();
+    }, 5000); // Change image every 5 seconds
+  });
+</script>

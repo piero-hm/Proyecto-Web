@@ -8,10 +8,12 @@ interface Props {
 const { title, lead, gradientClass } = Astro.props;
 ---
 
-<header class={`py-12 text-center text-white ${gradientClass || 'bg-gray-800'}`}>
-  <div class="container mx-auto px-4">
+<header
+  class={`relative bg-gradient-to-br from-black via-gray-900 to-purple-800 py-12 text-center text-white ${gradientClass || "bg-gray-800"}`}
+>
+  <div class="mt-40 container mx-auto px-4">
     <h1 class="text-4xl md:text-5xl font-bold mb-3">{title}</h1>
-    <p class="text-lg md:text-xl opacity-90">{lead}</p>
+    <p class="my-10 text-lg md:text-xl opacity-90">{lead}</p>
     <slot />
   </div>
 </header>

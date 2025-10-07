@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Cart from "../components/Cart.astro";
 
 interface Props {
   title: string;
@@ -59,5 +60,31 @@ const {
   </head>
   <body class="bg-neutral-50 text-gray-900">
     <slot />
+
+    <Cart />
+
+    <!-- Botón para volver arriba -->
+    <button
+      id="scrollToTopBtn"
+      class="hidden fixed bottom-5 right-5 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-transform transform hover:scale-110"
+      aria-label="Volver arriba"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 15l7-7 7 7"
+        />
+      </svg>
+    </button>
+
+    <script src="../scripts/scrollToTop.js"></script>
   </body>
 </html>
